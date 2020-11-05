@@ -34,10 +34,11 @@ jobs:
     - name: Run smoke tests
       run: |
         pack create-builder testbuilder --config builder-repo/builder.toml
-        pack build testapp -p samples/nodejs/yarn --builder testbuilder
         pack build testapp -p samples/go/mod --builder testbuilder
-        pack build testapp -p samples/java/maven --builder testbuilder
-        pack build testapp -p samples/ruby/puma --builder testbuilder
+        pack build samples/java-native \
+          --env BP_BOOT_NATIVE_IMAGE=true \
+          --path=samples/java/native-image \
+          --builder testbuilder
 
   approve:
     name: Auto Approve

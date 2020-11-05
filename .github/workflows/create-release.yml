@@ -1,0 +1,88 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  smoke:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+    outputs:
+      release_notes: ${{ steps.notes.outputs.body }}
+    steps:
+
+    # Use :latest image when we have confidence in latest releases
+    # Current latest (0.14.0) has a runtime error
+    - name: Install Pack
+      run: |
+        id=$(docker create buildpacksio/pack:0.14.0)
+        sudo docker cp $id:/layers/paketo-buildpacks_go-build/targets/bin/pack /usr/local/bin/
+        docker rm -v $id
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: builder-repo
+
+    - name: Checkout paketo samples
+      uses: actions/checkout@v2
+      with:
+        repository: paketo-buildpacks/samples
+        path: samples
+
+    - name: Run smoke tests
+      run: |
+        pack create-builder builder --config builder-repo/builder.toml
+        pack build testapp -p samples/go/mod --builder builder
+        pack build samples/java-native \
+          --env BP_BOOT_NATIVE_IMAGE=true \
+          --path=samples/java/native-image \
+          --builder builder
+
+    - name: Generate Release Notes
+      id: notes
+      run: |
+        notes="$(pack inspect-builder builder | grep -v 'Inspecting builder' | grep -v 'REMOTE:' | grep -v 'LOCAL:' | grep -v '\(not present\)' | sed -e '/./,$!d')"
+        notes="${notes//'%'/'%25'}"
+        notes="${notes//$'\n'/'%0A'}"
+        notes="${notes//$'\r'/'%0D'}"
+        echo "::set-output name=body::${notes}"
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: smoke
+    steps:
+    - name: Checkout With History
+      uses: actions/checkout/@v2
+      with:
+        fetch-depth: 0 # gets full history
+    - name: Compare With Previous Release
+      id: compare_previous_release
+      run: |
+        if [ -z "$(git diff $(git describe --tags --abbrev=0) -- builder.toml)" ]
+        then
+          echo "::set-output name=builder_changes::false"
+        else
+          echo "::set-output name=builder_changes::true"
+        fi
+    - name: Tag
+      id: tag
+      if: ${{ steps.compare_previous_release.outputs.builder_changes == 'true' }}
+      uses: paketo-buildpacks/github-config/actions/tag@main
+    - name: Create Release
+      if: ${{ steps.compare_previous_release.outputs.builder_changes == 'true' }}
+      uses: paketo-buildpacks/github-config/actions/release/create@main
+      with:
+        repo: ${{ github.repository }}
+        token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+        tag_name: v${{ steps.tag.outputs.tag }}
+        target_commitish: ${{ github.sha }}
+        name: v${{ steps.tag.outputs.tag }}
+        body: |
+          ```
+          ${{ needs.smoke.outputs.release_notes }}
+          ```
+        draft: false

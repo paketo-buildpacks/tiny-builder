@@ -1,0 +1,30 @@
+description = "Tiny base image (bionic build image, distroless run image) with buildpacks for Golang"
+
+[[buildpacks]]
+  image = "gcr.io/paketo-buildpacks/go:0.2.3"
+  version = "0.2.3"
+
+[[buildpacks]]
+  image = "gcr.io/paketo-buildpacks/java-native-image:3.3.2"
+  version = "3.3.2"
+
+[lifecycle]
+  version = "0.9.2"
+
+[[order]]
+
+  [[order.group]]
+    id = "paketo-buildpacks/java-native-image"
+    version = "3.3.2"
+
+[[order]]
+
+  [[order.group]]
+    id = "paketo-buildpacks/go"
+    version = "0.2.3"
+
+[stack]
+  id = "io.paketo.stacks.tiny"
+  build-image = "index.docker.io/paketobuildpacks/build:0.0.149-tiny-cnb"
+  run-image = "index.docker.io/paketobuildpacks/run:tiny-cnb"
+  run-image-mirrors = ["gcr.io/paketo-buildpacks/run:tiny-cnb"]

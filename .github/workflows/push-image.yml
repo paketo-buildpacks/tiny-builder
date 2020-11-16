@@ -46,6 +46,7 @@ jobs:
         CLOUDFOUNDRY_DOCKERHUB_USERNAME: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_USERNAME }}
         CLOUDFOUNDRY_DOCKERHUB_PASSWORD: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_PASSWORD }}
       run: |
+        echo "${CLOUDFOUNDRY_DOCKERHUB_PASSWORD}" | docker login --username "${CLOUDFOUNDRY_DOCKERHUB_USERNAME}" --password-stdin
         docker tag builder "cloudfoundry/cnb:tiny"
         docker tag builder "cloudfoundry/cnb:${{ steps.event.outputs.tag }}-tiny"
 

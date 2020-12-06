@@ -25,6 +25,6 @@ description = "Tiny base image (bionic build image, distroless run image) with b
 
 [stack]
   id = "io.paketo.stacks.tiny"
-  build-image = "docker.io/paketobuildpacks/build:1.0.4-tiny-cnb"
+  build-image = "docker.io/paketobuildpacks/build:1.0.5-tiny-cnb"
   run-image = "index.docker.io/paketobuildpacks/run:tiny-cnb"
   run-image-mirrors = ["gcr.io/paketo-buildpacks/run:tiny-cnb"]

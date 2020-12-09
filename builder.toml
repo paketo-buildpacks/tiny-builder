@@ -1,4 +1,4 @@
-description = "Tiny base image (bionic build image, distroless run image) with buildpacks for Golang"
+description = "Tiny base image (bionic build image, distroless run image) with buildpacks for Java Native Image and Go"
 
 [[buildpacks]]
   image = "gcr.io/paketo-buildpacks/go:0.2.8"

@@ -9,7 +9,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   version = "4.5.0"
 
 [lifecycle]
-  version = "0.9.3"
+  version = "0.10.0"
 
 [[order]]
 

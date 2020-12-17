@@ -19,11 +19,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Install Pack
-      run: |
-        id=$(docker create buildpacksio/pack:0.14.2)
-        sudo docker cp $id:/layers/paketo-buildpacks_go-build/targets/bin/pack /usr/local/bin/
-        docker rm -v $id
+    - name: Get pack version
+      id: pack-version
+      run : |
+        echo "::set-output name=version::$(cat ./.github/pack-version)"
+
+    - name: Install Global Pack
+      uses: buildpacks/github-actions/setup-pack@main
+      with:
+        pack-version: ${{ steps.pack-version.outputs.version }}
 
     - name: Create Builder Image
       run: |

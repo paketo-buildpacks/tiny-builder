@@ -1,8 +1,8 @@
 description = "Tiny base image (bionic build image, distroless-like run image) with buildpacks for Java Native Image and Go"
 
 [[buildpacks]]
-  image = "gcr.io/paketo-buildpacks/go:0.3.0"
-  version = "0.3.0"
+  image = "gcr.io/paketo-buildpacks/go:0.3.1"
+  version = "0.3.1"
 
 [[buildpacks]]
   image = "gcr.io/paketo-buildpacks/java-native-image:4.6.0"
@@ -21,7 +21,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
 
   [[order.group]]
     id = "paketo-buildpacks/go"
-    version = "0.3.0"
+    version = "0.3.1"
 
 [stack]
   id = "io.paketo.stacks.tiny"

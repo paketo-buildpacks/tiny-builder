@@ -1,5 +1,7 @@
 # Paketo Tiny Builder
 
+## `paketobuildpacks/builder:tiny`
+
 This builder uses a Tiny base image (bionic build image, distroless-like run image)
 with buildpacks for Java Native Image and Go.
 

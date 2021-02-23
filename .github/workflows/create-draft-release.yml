@@ -1,0 +1,87 @@
+name: Create Draft Release
+
+on:
+  push:
+    branches:
+    - main
+  repository_dispatch:
+    types: [ version-bump ]
+
+jobs:
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Run Unit Tests
+      run: ./scripts/unit.sh
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
+    - name: Run Integration Tests
+      run: ./scripts/integration.sh --use-token
+      env:
+        GIT_TOKEN: ${{ github.token }}
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: integration
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
+    - name: Reset Draft Release
+      id: reset
+      uses: paketo-buildpacks/github-config/actions/release/reset-draft@main
+      with:
+        repo: ${{ github.repository }}
+        token: ${{ github.token }}
+    - name: Tag
+      id: tag
+      uses: paketo-buildpacks/github-config/actions/tag@main
+      with:
+        current_version: ${{ steps.reset.outputs.current_version }}
+    - name: Package
+      run: ./scripts/package.sh --version "${{ steps.tag.outputs.tag }}"
+    - name: Create Release Notes
+      id: create-release-notes
+      uses: paketo-buildpacks/github-config/actions/release/notes@main
+    - name: Create Release
+      uses: paketo-buildpacks/github-config/actions/release/create@main
+      with:
+        repo: ${{ github.repository }}
+        token: ${{ secrets.PAKETO_BOT_GITHUB_TOKEN }}
+        tag_name: v${{ steps.tag.outputs.tag }}
+        target_commitish: ${{ github.sha }}
+        name: v${{ steps.tag.outputs.tag }}
+        body: ${{ steps.create-release-notes.outputs.release_body }}
+        draft: true
+        assets: |
+          [
+            {
+              "path": "build/buildpack.tgz",
+              "name": "${{ github.event.repository.name }}-${{ steps.tag.outputs.tag }}.tgz",
+              "content_type": "application/gzip"
+            },
+            {
+              "path": "build/buildpackage.cnb",
+              "name": "${{ github.event.repository.name }}-${{ steps.tag.outputs.tag }}.cnb",
+              "content_type": "application/gzip"
+            }
+          ]

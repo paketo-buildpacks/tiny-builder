@@ -5,21 +5,21 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   version = "0.5.0"
 
 [[buildpacks]]
-  uri = "docker://gcr.io/paketo-buildpacks/java-native-image:5.2.0"
-  version = "5.2.0"
+  uri = "docker://gcr.io/paketo-buildpacks/java-native-image:5.3.0"
+  version = "5.3.0"
 
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/procfile:4.1.0"
   version = "4.1.0"
 
 [lifecycle]
-  version = "0.10.2"
+  version = "0.11.1"
 
 [[order]]
 
   [[order.group]]
     id = "paketo-buildpacks/java-native-image"
-    version = "5.2.0"
+    version = "5.3.0"
 
 [[order]]
 
@@ -34,7 +34,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
     version = "4.1.0"
 
 [stack]
-  build-image = "docker.io/paketobuildpacks/build:1.2.2-tiny-cnb"
+  build-image = "docker.io/paketobuildpacks/build:1.2.3-tiny-cnb"
   id = "io.paketo.stacks.tiny"
   run-image = "index.docker.io/paketobuildpacks/run:tiny-cnb"
   run-image-mirrors = ["gcr.io/paketo-buildpacks/run:tiny-cnb"]

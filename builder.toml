@@ -9,8 +9,8 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   version = "5.2.0"
 
 [[buildpacks]]
-  image = "gcr.io/paketo-buildpacks/procfile:3.0.0"
-  version = "3.0.0"
+  uri = "docker://gcr.io/paketo-buildpacks/procfile:4.1.0"
+  version = "4.1.0"
 
 [lifecycle]
   version = "0.10.2"
@@ -31,7 +31,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
 
   [[order.group]]
     id = "paketo-buildpacks/procfile"
-    version = "3.0.0"
+    version = "4.1.0"
 
 [stack]
   build-image = "docker.io/paketobuildpacks/build:1.2.2-tiny-cnb"

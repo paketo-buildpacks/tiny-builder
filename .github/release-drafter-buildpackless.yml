@@ -1,6 +1,6 @@
 # Config for https://github.com/toolmantim/release-drafter
 name-template: 'Paketo Buildpackless Tiny Builder $RESOLVED_VERSION'
-tag-template: '$RESOLVED_VERSION'
+tag-template: "buildpackless/v$RESOLVED_VERSION"
 filter-by-commitish: true
 commitish: buildpackless/main
 
@@ -24,3 +24,4 @@ version-resolver:
     labels:
       - 'patch'
   default: patch
+

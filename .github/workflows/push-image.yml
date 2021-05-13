@@ -33,27 +33,28 @@ jobs:
     - name: Create Builder Image
       run: |
         pack create-builder builder --config builder.toml
+        echo "Created builder. Would now push to docker"
 
-    - name: Push To Dockerhub
-      env:
-        PAKETO_BUILDPACKS_DOCKERHUB_USERNAME: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_USERNAME }}
-        PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD }}
-      run: |
-        echo "${PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD}" | docker login --username "${PAKETO_BUILDPACKS_DOCKERHUB_USERNAME}" --password-stdin
-        docker tag builder "paketobuildpacks/builder:tiny"
-        docker tag builder "paketobuildpacks/builder:${{ steps.event.outputs.tag }}-tiny"
+    # - name: Push To Dockerhub
+    #   env:
+    #     PAKETO_BUILDPACKS_DOCKERHUB_USERNAME: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_USERNAME }}
+    #     PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD: ${{ secrets.PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD }}
+    #   run: |
+    #     echo "${PAKETO_BUILDPACKS_DOCKERHUB_PASSWORD}" | docker login --username "${PAKETO_BUILDPACKS_DOCKERHUB_USERNAME}" --password-stdin
+    #     docker tag builder "paketobuildpacks/builder:tiny"
+    #     docker tag builder "paketobuildpacks/builder:${{ steps.event.outputs.tag }}-tiny"
 
-        docker push "paketobuildpacks/builder:tiny"
-        docker push "paketobuildpacks/builder:${{ steps.event.outputs.tag }}-tiny"
+    #     docker push "paketobuildpacks/builder:tiny"
+    #     docker push "paketobuildpacks/builder:${{ steps.event.outputs.tag }}-tiny"
 
-    - name: Push To Dockerhub (cf)
-      env:
-        CLOUDFOUNDRY_DOCKERHUB_USERNAME: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_USERNAME }}
-        CLOUDFOUNDRY_DOCKERHUB_PASSWORD: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_PASSWORD }}
-      run: |
-        echo "${CLOUDFOUNDRY_DOCKERHUB_PASSWORD}" | docker login --username "${CLOUDFOUNDRY_DOCKERHUB_USERNAME}" --password-stdin
-        docker tag builder "cloudfoundry/cnb:tiny"
-        docker tag builder "cloudfoundry/cnb:${{ steps.event.outputs.tag }}-tiny"
+    # - name: Push To Dockerhub (cf)
+    #   env:
+    #     CLOUDFOUNDRY_DOCKERHUB_USERNAME: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_USERNAME }}
+    #     CLOUDFOUNDRY_DOCKERHUB_PASSWORD: ${{ secrets.CLOUDFOUNDRY_DOCKERHUB_PASSWORD }}
+    #   run: |
+    #     echo "${CLOUDFOUNDRY_DOCKERHUB_PASSWORD}" | docker login --username "${CLOUDFOUNDRY_DOCKERHUB_USERNAME}" --password-stdin
+    #     docker tag builder "cloudfoundry/cnb:tiny"
+    #     docker tag builder "cloudfoundry/cnb:${{ steps.event.outputs.tag }}-tiny"
 
-        docker push "cloudfoundry/cnb:tiny"
-        docker push "cloudfoundry/cnb:${{ steps.event.outputs.tag }}-tiny"
+    #     docker push "cloudfoundry/cnb:tiny"
+    #     docker push "cloudfoundry/cnb:${{ steps.event.outputs.tag }}-tiny"

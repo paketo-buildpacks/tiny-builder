@@ -21,7 +21,7 @@ jobs:
 
     - name: Get pack version
       id: pack-version
-      run : |
+      run: |
         version=$(jq -r .pack "scripts/.util/tools.json")
         echo "::set-output name=version::${version#v}"
 
@@ -32,7 +32,7 @@ jobs:
 
     - name: Create Builder Image
       run: |
-        pack create-builder builder --config builder.toml
+        pack builder create builder --config builder.toml
 
     - name: Push To Dockerhub
       env:

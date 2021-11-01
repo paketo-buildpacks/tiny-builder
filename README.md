@@ -4,7 +4,7 @@
 
 This builder uses the [Paketo Tiny
 Stack](https://github.com/paketo-buildpacks/tiny-stack-release) (bionic build
-image, distroless-like run image) with buildpacks for Java Native Image, Go,
+image, distroless-like run image) with buildpacks for Java, Java Native Image, Go,
 and Procfile.
 
 To see which versions of build and run images, buildpacks, and the lifecycle

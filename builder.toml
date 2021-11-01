@@ -1,4 +1,4 @@
-description = "Tiny base image (bionic build image, distroless-like run image) with buildpacks for Java Native Image and Go"
+description = "Tiny base image (bionic build image, distroless-like run image) with buildpacks for Java, Java Native Image and Go"
 
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/go:0.12.0"
@@ -7,6 +7,10 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/java-native-image:5.12.0"
   version = "5.12.0"
+
+[[buildpacks]]
+  uri = "docker://gcr.io/paketo-buildpacks/java:5.21.0"
+  version = "5.21.0"
 
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/procfile:4.4.1"
@@ -20,6 +24,12 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   [[order.group]]
     id = "paketo-buildpacks/java-native-image"
     version = "5.12.0"
+
+[[order]]
+
+  [[order.group]]
+    id = "paketo-buildpacks/java"
+    version = "5.21.0"
 
 [[order]]
 

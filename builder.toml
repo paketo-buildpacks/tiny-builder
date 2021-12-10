@@ -9,8 +9,8 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   version = "7.1.0"
 
 [[buildpacks]]
-  uri = "docker://gcr.io/paketo-buildpacks/java:6.1.0"
-  version = "6.1.0"
+  uri = "docker://gcr.io/paketo-buildpacks/java:6.2.0"
+  version = "6.2.0"
 
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/procfile:5.0.1"
@@ -29,7 +29,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
 
   [[order.group]]
     id = "paketo-buildpacks/java"
-    version = "6.1.0"
+    version = "6.2.0"
 
 [[order]]
 

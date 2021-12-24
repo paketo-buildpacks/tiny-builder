@@ -5,12 +5,12 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   version = "0.13.1"
 
 [[buildpacks]]
-  uri = "docker://gcr.io/paketo-buildpacks/java-native-image:7.3.0"
-  version = "7.3.0"
+  uri = "docker://gcr.io/paketo-buildpacks/java-native-image:7.4.0"
+  version = "7.4.0"
 
 [[buildpacks]]
-  uri = "docker://gcr.io/paketo-buildpacks/java:6.3.0"
-  version = "6.3.0"
+  uri = "docker://gcr.io/paketo-buildpacks/java:6.4.0"
+  version = "6.4.0"
 
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/procfile:5.0.2"
@@ -23,13 +23,13 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
 
   [[order.group]]
     id = "paketo-buildpacks/java-native-image"
-    version = "7.3.0"
+    version = "7.4.0"
 
 [[order]]
 
   [[order.group]]
     id = "paketo-buildpacks/java"
-    version = "6.3.0"
+    version = "6.4.0"
 
 [[order]]
 

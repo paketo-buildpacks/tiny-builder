@@ -4,6 +4,7 @@ description = "Tiny base image (bionic build image, distroless-like run image) w
   uri = "docker://gcr.io/paketo-buildpacks/go:1.5.0"
   version = "1.5.0"
 
+# No op change to builder.toml; to trigger tests
 [[buildpacks]]
   uri = "docker://gcr.io/paketo-buildpacks/java-native-image:7.20.0"
   version = "7.20.0"

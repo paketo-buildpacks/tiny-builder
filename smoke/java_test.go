@@ -73,7 +73,7 @@ func testJava(t *testing.T, context spec.G, it spec.S) {
 			Expect(logs).To(ContainLines(ContainSubstring("Paketo BellSoft Liberica Buildpack")))
 			Expect(logs).To(ContainLines(ContainSubstring("Paketo Maven Buildpack")))
 			Expect(logs).To(ContainLines(ContainSubstring("Paketo Executable JAR Buildpack")))
-			Expect(logs).To(ContainLines(ContainSubstring("Paketo Spring Boot Buildpack")))
+			Expect(logs).To(ContainLines(ContainSubstring("Paketo Buildpack for Spring Boot")))
 		})
 	})
 }

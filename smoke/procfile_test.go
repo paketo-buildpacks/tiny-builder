@@ -61,7 +61,7 @@ func testProcfile(t *testing.T, context spec.G, it spec.S) {
 				Execute(name, source)
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
-			Expect(logs).To(ContainLines(ContainSubstring("Paketo Procfile Buildpack")))
+			Expect(logs).To(ContainLines(ContainSubstring("Paketo Buildpack for Procfile")))
 
 			container, err = docker.Container.Run.
 				WithEnv(map[string]string{"PORT": "8080"}).

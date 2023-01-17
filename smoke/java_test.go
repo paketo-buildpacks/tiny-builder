@@ -59,6 +59,7 @@ func testJava(t *testing.T, context spec.G, it spec.S) {
 			image, logs, err = pack.Build.
 				WithPullPolicy("never").
 				WithBuilder(Builder).
+				WithEnv(map[string]string{"BP_JVM_VERSION": "17"}).
 				Execute(name, source)
 			Expect(err).ToNot(HaveOccurred(), logs.String)
 
